@@ -1,4 +1,4 @@
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch,exceptions
 es = Elasticsearch()
 
 def insert(doc):
@@ -27,9 +27,12 @@ def get_data(query,id):
             }
         }
     }
-    res = es.search(index="user_history",body=q)
-    res=res['hits']['hits'][:6]
-    if len(res)>0:
-       res=[i['_source']['link'] for i in res]
-       res='\n'.join(res)
-    return res
+    try:
+        res = es.search(index="user_history",body=q)
+        res=res['hits']['hits'][:6]
+        if len(res)>0:
+            res=[i['_source']['link'] for i in res]
+            res='\n'.join(res)
+        return res
+    except exceptions.NotFoundError as e:
+       return "No recent hostory present"

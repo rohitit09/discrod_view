@@ -38,8 +38,8 @@ async def on_message(message):
             items=[{'title':i['title'],'link':i['link'],"author_name":message.author.name,"author_id":message.author.id} for i in items[:6]]
             insert(items)
             _items='\n'.join([i['link']for i in items[:6]])
-            await message.channel.send(items)
+            await message.channel.send(_items)
         else:
             await message.channel.send('No result found for given query')
 
-client.run(os.getenv('TOKEN','ODI5Nzg4ODMxNTczNDc1MzQw.YG9PEg.ohrRqzqXA9Kikm8C15bV2QkQh2M'))
+client.run(os.getenv('Token'))
